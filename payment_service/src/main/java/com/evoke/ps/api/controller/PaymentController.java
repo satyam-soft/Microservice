@@ -2,6 +2,8 @@ package com.evoke.ps.api.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +16,6 @@ import com.evoke.ps.api.client.Order;
 import com.evoke.ps.api.client.OrderClient;
 import com.evoke.ps.api.enitity.Payment;
 import com.evoke.ps.api.service.PaymentService;
-import com.netflix.discovery.converters.Auto;
 
 @RestController
 @RequestMapping("/payment")
@@ -25,6 +26,8 @@ public class PaymentController {
 	@Autowired
 	private OrderClient orderClient;
 	
+	Logger logger=LoggerFactory.getLogger(PaymentController.class);
+	
 	@PostMapping("/doPayment")
 	public Payment doPayment(@RequestBody Payment payment)
 	{
@@ -34,6 +37,7 @@ public class PaymentController {
 	@GetMapping("/paymentList")
 	public List<Payment> getPaymentList()
 	{    
+		logger.info("getPaymentList() execution started");
 		List<Order> list=orderClient.invokeOrderservice();
 		Order order=list.get(0);
 		System.out.println(order);
